@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
-import { Container, Box, CssBaseline } from '@material-ui/core'
+import { Grid, Container, CssBaseline } from '@material-ui/core'
 import Header from './components/Header'
+import { Balance } from './components/Balance'
+import { IncomeExpenses } from './components/IncomeExpenses'
+import { TransactionList } from './components/TransactionList'
+import { AddTransaction } from './components/AddTransaction'
 
 const themeObject = {
   palette: {
@@ -42,16 +46,16 @@ function App() {
       <CssBaseline />
       <Header toggleDarkMode={toggleDarkMode}>App Component</Header>
       <Container>
-        <Box my={2}>
-          {[...new Array(12)]
-            .map(
-              () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-            )
-            .join('\n')}
-        </Box>
+        <Grid container spacing={3}>
+          <Grid item xs={4}>
+            <Balance></Balance>
+          </Grid>
+          <Grid item xs={8}>
+            <IncomeExpenses></IncomeExpenses>
+            <TransactionList></TransactionList>
+            <AddTransaction></AddTransaction>
+          </Grid>
+        </Grid>
       </Container>
     </ThemeProvider>
   )
