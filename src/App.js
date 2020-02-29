@@ -1,11 +1,17 @@
 import React, { useState } from 'react'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import {
+  createMuiTheme,
+  ThemeProvider,
+  makeStyles
+} from '@material-ui/core/styles'
 import { Grid, Container, CssBaseline } from '@material-ui/core'
-import Header from './components/Header'
+import { Header } from './components/Header'
 import { Balance } from './components/Balance'
 import { IncomeExpenses } from './components/IncomeExpenses'
 import { TransactionList } from './components/TransactionList'
 import { AddTransaction } from './components/AddTransaction'
+
+import { GlobalProvider } from './context/GlobalState'
 
 const themeObject = {
   palette: {
@@ -37,27 +43,36 @@ const useDarkMode = () => {
   return [theme, toggleDarkMode]
 }
 
+const useStyles = makeStyles({
+  root: {
+    marginTop: '20px'
+  }
+})
+
 function App() {
   const [theme, toggleDarkMode] = useDarkMode()
   const themeConfig = createMuiTheme(theme)
+  const classes = useStyles()
   console.log(themeConfig)
   return (
-    <ThemeProvider theme={themeConfig}>
-      <CssBaseline />
-      <Header toggleDarkMode={toggleDarkMode}>App Component</Header>
-      <Container>
-        <Grid container spacing={3}>
-          <Grid item xs={4}>
-            <Balance></Balance>
+    <GlobalProvider>
+      <ThemeProvider theme={themeConfig}>
+        <CssBaseline />
+        <Header toggleDarkMode={toggleDarkMode}>App Component</Header>
+        <Container className={classes.root}>
+          <Grid container spacing={1}>
+            <Grid item xs={12} md={4}>
+              <Balance></Balance>
+            </Grid>
+            <Grid item xs={12} md={8}>
+              <IncomeExpenses></IncomeExpenses>
+              <TransactionList></TransactionList>
+              <AddTransaction></AddTransaction>
+            </Grid>
           </Grid>
-          <Grid item xs={8}>
-            <IncomeExpenses></IncomeExpenses>
-            <TransactionList></TransactionList>
-            <AddTransaction></AddTransaction>
-          </Grid>
-        </Grid>
-      </Container>
-    </ThemeProvider>
+        </Container>
+      </ThemeProvider>
+    </GlobalProvider>
   )
 }
 

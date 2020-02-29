@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function Header(props) {
+export const Header = props => {
   const classes = useStyles()
 
   return (
