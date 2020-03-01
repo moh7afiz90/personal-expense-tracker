@@ -1,24 +1,9 @@
 import React, { useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import {
-  Grid,
-  IconButton,
-  Avatar,
-  ListItemText,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  Typography,
-  Container,
-  Divider
-} from '@material-ui/core'
+import { Grid, List, Typography } from '@material-ui/core'
 
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney'
-import PaymentIcon from '@material-ui/icons/Payment'
-import DeleteIcon from '@material-ui/icons/Delete'
 import { GlobalContext } from '../context/GlobalState'
+import { Transaction } from './Transaction'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,19 +18,11 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-// function generate(element) {
-//   return [0, 1, 2].map(value =>
-//     React.cloneElement(element, {
-//       key: value
-//     })
-//   )
-// }
-
 export const TransactionList = () => {
   const classes = useStyles()
   const { transactions } = useContext(GlobalContext)
-  const [dense, setDense] = React.useState(false)
-  const [secondary, setSecondary] = React.useState(false)
+  const [dense] = React.useState(false)
+  
 
   return (
     <div className={classes.root}>
@@ -58,32 +35,10 @@ export const TransactionList = () => {
             <List dense={dense}>
               {transactions.map(transaction => {
                 return (
-                  <ListItem key={transaction.id}>
-                    <ListItemIcon>
-                      <ListItemAvatar>
-                        <Avatar>
-                          <PaymentIcon />
-                        </Avatar>
-                      </ListItemAvatar>
-                    </ListItemIcon>
-                    <ListItemText primary={transaction.text} />
-
-                    <ListItemIcon>
-                      <AttachMoneyIcon></AttachMoneyIcon>
-                    </ListItemIcon>
-                    <ListItemText primary={transaction.amount} />
-                    <ListItemSecondaryAction>
-                      <IconButton edge="end" aria-label="delete">
-                        <Divider
-                          style={{ width: '2px' }}
-                          orientation="vertical"
-                          absolute
-                          light
-                        />
-                        <DeleteIcon />
-                      </IconButton>
-                    </ListItemSecondaryAction>
-                  </ListItem>
+                  <Transaction
+                    key={transaction.id}
+                    transaction={transaction}
+                  ></Transaction>
                 )
               })}
             </List>
