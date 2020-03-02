@@ -1,23 +1,24 @@
 import React from 'react'
 
 import {
-  IconButton,
-  Avatar,
-  ListItemText,
-  ListItem,
-  ListItemAvatar,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  Divider,
+  Box,
+  Grid,
+  Card,
+  Typography,
+  Button,
   makeStyles
 } from '@material-ui/core'
 
-import PaymentIcon from '@material-ui/icons/Payment'
 import DeleteIcon from '@material-ui/icons/Delete'
 
 const useStyles = makeStyles(() => ({
+  plus: {
+    borderColor: '#008000	',
+    margin: '5px'
+  },
   minus: {
-    color: '#FF0000'
+    borderColor: '#8B0000',
+    margin: '5px'
   }
 }))
 
@@ -25,31 +26,33 @@ export const Transaction = ({ transaction }) => {
   const classes = useStyles()
   const sign = transaction.amount < 0 ? '-' : '+'
   return (
-    <ListItem key={transaction.id}>
-      <ListItemIcon>
-        <ListItemAvatar>
-          <Avatar>
-            <PaymentIcon />
-          </Avatar>
-        </ListItemAvatar>
-      </ListItemIcon>
-      <ListItemText primary={transaction.text} />
-
-      <ListItemText
-        className={classes.minus}
-        primary={`$ ${sign} ${Math.abs(transaction.amount)}`}
-      />
-      <ListItemSecondaryAction>
-        <IconButton edge="end" aria-label="delete">
-          <Divider
-            style={{ width: '2px' }}
-            orientation="vertical"
-            absolute
-            light
-          />
-          <DeleteIcon />
-        </IconButton>
-      </ListItemSecondaryAction>
-    </ListItem>
+    <Grid item xs={6} sm={6} md={6}>
+      <Card
+        className={transaction.amount < 0 ? classes.minus : classes.plus}
+        variant="outlined"
+      >
+        <Box display="flex" p={1}>
+          <Box p={1} flexGrow={1} m={1}>
+            <Typography
+              className={classes.title}
+              color="textPrimary"
+              gutterBottom
+            >
+              {transaction.text}
+            </Typography>
+          </Box>
+          <Box p={1} m={1}>
+            <Typography className={classes.pos} color="textSecondary">
+              Cost: {`$ ${sign} ${Math.abs(transaction.amount)}`}
+            </Typography>
+          </Box>
+          <Box p={1} className={classes.pos}>
+            <Button size="large">
+              <DeleteIcon />
+            </Button>
+          </Box>
+        </Box>
+      </Card>
+    </Grid>
   )
 }
