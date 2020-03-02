@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 export const TransactionList = () => {
   const classes = useStyles()
   const { transactions } = useContext(GlobalContext)
-  const [dense] = React.useState(false)
+  // const [dense] = React.useState(false)
 
   return (
     <div className={classes.root}>
@@ -26,7 +26,7 @@ export const TransactionList = () => {
         <Grid item xs={12} md={12}>
           <Typography variant="h4">Transactions List</Typography>
           <div className={classes.demo}>
-            <GridList dense={dense} container spacing={3}>
+            <GridList spacing={3}>
               {transactions.map(transaction => {
                 return (
                   <Transaction

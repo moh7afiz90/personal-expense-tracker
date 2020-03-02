@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
+
 import { Card, CardContent, Typography, makeStyles } from '@material-ui/core'
+
+import { GlobalContext } from '../context/GlobalState'
 
 const useStyles = makeStyles({
   root: {
@@ -13,6 +16,10 @@ const useStyles = makeStyles({
 
 export const Balance = () => {
   const classes = useStyles()
+  const { transactions } = useContext(GlobalContext)
+  // const amounts = transactions.amount
+  const amounts = transactions.map(transaction => transaction.amount)
+  const total = amounts.reduce((acc, item) => (acc += item), 0).toFixed(2)
 
   return (
     <Card className={classes.root}>
@@ -21,11 +28,12 @@ export const Balance = () => {
           Your Balance
         </Typography>
         <Typography
-          component="h5"
+          // component="h5"
+          variant="h1"
           className={classes.pos}
           color="textSecondary"
         >
-          $ 0.00
+          $ {total}
         </Typography>
       </CardContent>
     </Card>
