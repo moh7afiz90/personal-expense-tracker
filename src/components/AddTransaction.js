@@ -3,7 +3,6 @@ import { GlobalContext } from '../context/GlobalState'
 
 import {
   Typography,
-  Divider,
   Grid,
   Button,
   InputAdornment,
@@ -41,17 +40,34 @@ export const AddTransaction = () => {
 
   const { addTransaction } = useContext(GlobalContext)
 
+  const onSubmit = e => {
+    e.preventDefault()
+
+    const newTransaction = {
+      id: Math.floor(Math.random() * 100000000),
+      text,
+      amount: +amount
+    }
+
+    addTransaction(newTransaction)
+  }
+
   return (
-    <form className={classes.root} noValidate autoComplete="off">
+    <form
+      onSubmit={onSubmit}
+      className={classes.root}
+      noValidate
+      autoComplete="off"
+    >
       <Typography variant="h4">Add Transactions</Typography>
       <Grid container className={classes.grid}>
         <Grid item xs={12} md={6}>
           <FormControl fullWidth className={classes.margin} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-amount">Text</InputLabel>
+            <InputLabel htmlFor="outlined-adornment-text">Text</InputLabel>
             <OutlinedInput
-              id="outlined-adornment-amount"
-              // value={values.amount}
-              // onChange={handleChange('amount')}
+              id="outlined-adornment-text"
+              value={text}
+              onChange={e => setText(e.target.value)}
               startAdornment={
                 <InputAdornment position="start">
                   <DescriptionIcon></DescriptionIcon>
@@ -66,8 +82,8 @@ export const AddTransaction = () => {
             <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
             <OutlinedInput
               id="outlined-adornment-amount"
-              // value={values.amount}
-              // onChange={handleChange('amount')}
+              value={amount}
+              onChange={e => setAmount(e.target.value)}
               startAdornment={
                 <InputAdornment position="start">
                   <AttachMoneyIcon></AttachMoneyIcon>
@@ -78,16 +94,19 @@ export const AddTransaction = () => {
           </FormControl>
         </Grid>
         <Grid item xs={12}>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            fullWidth
-            className={classes.margin}
-            startIcon={<SaveIcon />}
-          >
-            Save
-          </Button>
+          <FormControl>
+            <Button
+              onClick={onSubmit}
+              variant="contained"
+              color="primary"
+              size="large"
+              fullWidth
+              className={classes.margin}
+              startIcon={<SaveIcon />}
+            >
+              Add Transaction
+            </Button>
+          </FormControl>
         </Grid>
       </Grid>
     </form>
